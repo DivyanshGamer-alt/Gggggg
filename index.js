@@ -26,7 +26,7 @@ var nightskip = data["auto-night-skip"]
 
 const mc = require('minecraft-protocol')
 
-let bot
+let bot = null;
 let death = 0;
 let simp = 0;
 let popularity = 0;
@@ -72,8 +72,7 @@ const versions = [
   "1.8.9"
 ];
 
-let versionIndex = 0;
-let bot = null;
+let versionIndex = 0
 
 function startBot(version = false) {
     const currentVersion = version || versions[versionIndex] || false;
