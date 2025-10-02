@@ -98,6 +98,19 @@ function startBot(version = false) {
         versionIndex++;
         if (versionIndex >= versions.length) versionIndex = 0;
         setTimeout(() => startBot(versions[versionIndex]), 5000);
+
+        // Reset connection state
+        connected = 0;
+        moving = 0;
+        lasttime = -1;
+        botOnline = false;
+        botStats.moving = false;
+
+        // Wait 3 seconds before reconnecting
+        setTimeout(() => {
+            addLog("🔄 Attempting to reconnect...");
+            tryNextVersion(version);
+        }, 3000);
     });
         
         // Reset connection state
