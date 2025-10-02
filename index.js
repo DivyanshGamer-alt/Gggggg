@@ -99,7 +99,6 @@ function startBot(version = false) {
         if (versionIndex >= versions.length) versionIndex = 0;
         setTimeout(() => startBot(versions[versionIndex]), 5000);
     });
-}
         
         // Reset connection state
         connected = 0;
