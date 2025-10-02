@@ -1,6 +1,6 @@
 {
-	"ip":"CarelessSMP.aternos.me",
-	"port": 39188,
+	"ip":"DevXHusk.aternos.me:",
+	"port": 14456,
 	"name": "HarshKaBeta",
 	"auto-night-skip":"false",
 	"login-enabled":"true",
@@ -8,4 +8,5 @@
 	"login-cmd":"/login UnknownGuy@123"
 
 }
+
 
