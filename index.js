@@ -32,31 +32,75 @@ let simp = 0;
 let popularity = 0;
 let pvpc = 0;
 
-// List of fallback versions
-const versions = ["1.20.1", "1.19.4", "1.19", "1.18.2", "1.17.1", "1.16.5", "1.12.2", "1.8.9"]
+// Expanded fallback version list (newer first)
+const versions = [
+  "1.21.9",
+  "1.21.8",
+  "1.21.7",
+  "1.21.6",
+  "1.21.5",
+  "1.21.4",
+  "1.21.3",
+  "1.21.2",
+  "1.21.1",
+  "1.21.0",
+  "1.20.4",
+  "1.20.3",
+  "1.20.2",
+  "1.20.1",
+  "1.20.0",
+  "1.19.4",
+  "1.19.3",
+  "1.19.2",
+  "1.19.1",
+  "1.19.0",
+  "1.18.2",
+  "1.18.1",
+  "1.18.0",
+  "1.17.1",
+  "1.17.0",
+  "1.16.5",
+  "1.16.4",
+  "1.16.3",
+  "1.16.2",
+  "1.16.1",
+  "1.16.0",
+  "1.15.2",
+  "1.15.1",
+  // … you can keep adding older ones if needed
+  "1.12.2",
+  "1.8.9"
+];
+
+let versionIndex = 0;
+let bot = null;
 
 function startBot(version = false) {
-    botInstance = mineflayer.createBot({
+    const currentVersion = version || versions[versionIndex] || false;
+
+    bot = mineflayer.createBot({
         host: host,
         port: data["port"],
         username: username,
         auth: "offline",
-        version: version || false, // autoVersion if false
+        version: currentVersion,
         logErrors: false
-    })
+    });
 
-    bot = botInstance; // Keep reference for backward compatibility
+    bot.loadPlugin(cmd);
+    bot.loadPlugin(pvp);
+    bot.loadPlugin(armorManager);
+    bot.loadPlugin(pathfinder);
 
-    bot.loadPlugin(cmd)
-    bot.loadPlugin(pvp)
-    bot.loadPlugin(armorManager)
-    bot.loadPlugin(pathfinder)
-
-    attachEvents()
+    attachEvents();
 
     bot.on('end', (reason) => {
-        const message = `❌ Bot disconnected (reason: ${reason}, version: ${version || "auto"}). Retrying...`;
-        addLog(message);
+        addLog(`❌ Bot disconnected (reason: ${reason}, version: ${currentVersion || "auto"}). Retrying...`);
+        versionIndex++;
+        if (versionIndex >= versions.length) versionIndex = 0;
+        setTimeout(() => startBot(versions[versionIndex]), 5000);
+    });
+}
         
         // Reset connection state
         connected = 0;
