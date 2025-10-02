@@ -142,20 +142,20 @@ function startBot(version = false) {
         botStats.moving = false;
 
         // Wait 3 seconds before reconnecting
-        setTimeout(() => {
-            addLog("🔄 Attempting to reconnect...");
-            tryNextVersion(version)
-        }, 3000)
-    })
+setTimeout(() => {
+    addLog("🔄 Attempting to reconnect...");
+    tryNextVersion(version)
+}, 3000);
 
-    bot.on('error', err => {
-        addLog(`⚠️ Bot error: ${err.message}`);
-        // Don't restart on error, let the 'end' event handle it
-    })
+bot.on('error', err => {
+    addLog(`⚠️ Bot error: ${err.message}`);
+    // Don't restart on error, let the 'end' event handle it
+});
 
-    bot.on('kicked', (reason) => {
-        addLog(`👢 Bot was kicked from server: ${reason}`);
-        addLog("🔄 Will attempt to rejoin in 5 seconds...");
+bot.on('kicked', (reason) => {
+    addLog(`👢 Bot was kicked from server: ${reason}`);
+    addLog("🔄 Will attempt to rejoin in 5 seconds...");
+});
 
         // Reset connection state
         connected = 0;
