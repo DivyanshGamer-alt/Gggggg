@@ -1,13 +1,14 @@
 {
-	"ip":"DevXHusk.aternos.me:",
-	"port": 14456,
-	"name": "Ramfal",
+	"ip":"CarelessSMP.aternos.me",
+	"port": 39188,
+	"name": "HarshKaBeta",
 	"auto-night-skip":"false",
 	"login-enabled":"true",
-	"register-cmd":"/register UnknownGuy@123 UnknownGuy@123",
+	"register-cmd":"/login UnknownGuy@123",
 	"login-cmd":"/login UnknownGuy@123"
 
 }
+
 
 
 
