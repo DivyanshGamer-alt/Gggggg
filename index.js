@@ -97,7 +97,6 @@ function startBot(version = false) {
         addLog(`❌ Bot disconnected (reason: ${reason}, version: ${currentVersion || "auto"}). Retrying...`);
         versionIndex++;
         if (versionIndex >= versions.length) versionIndex = 0;
-        setTimeout(() => startBot(versions[versionIndex]), 5000);
 
         // Reset connection state
         connected = 0;
@@ -106,12 +105,34 @@ function startBot(version = false) {
         botOnline = false;
         botStats.moving = false;
 
-        // Wait 3 seconds before reconnecting
         setTimeout(() => {
             addLog("🔄 Attempting to reconnect...");
             tryNextVersion(version);
         }, 3000);
     });
+
+    bot.on('error', err => {
+        addLog(`⚠️ Bot error: ${err.message}`);
+        // Don't restart on error, let the 'end' event handle it
+    });
+
+    bot.on('kicked', (reason) => {
+        addLog(`👢 Bot was kicked from server: ${reason}`);
+        addLog("🔄 Will attempt to rejoin in 5 seconds...");
+
+        // Reset connection state
+        connected = 0;
+        moving = 0;
+        lasttime = -1;
+        botOnline = false;
+        botStats.moving = false;
+
+        setTimeout(() => {
+            addLog("🔄 Attempting to rejoin after being kicked...");
+            tryNextVersion(version);
+        }, 5000);
+    });
+}
         
         // Reset connection state
         connected = 0;
